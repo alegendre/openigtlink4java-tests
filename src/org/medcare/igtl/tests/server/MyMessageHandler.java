@@ -25,12 +25,13 @@ public class MyMessageHandler extends MessageHandler {
 
         @Override
         public boolean manageError(String messageType, int status) throws Exception {
-                // TODO Auto-generated method stub
+                System.out.println("manageError messageType : " + messageType + " status : " + status);
                 return false;
         }
 
         @Override
         public boolean perform(String messageType) throws Exception {
+                System.out.println("perform messageType : " + messageType);
                 if (messageType.equals("GET_CAPABIL")) {
                 	openIGTMessage = new GetCapabilityMessage(header, body);
                 } else if  (messageType.equals("TRANSFORM")) {

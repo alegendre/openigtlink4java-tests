@@ -1,0 +1,1 @@
+/usr/lib/jvm/java-6-sun-1.6.0.16/bin/java -Dfile.encoding=UTF-8 -classpath /home/rcs/workspace/openigtlink4java-tests/bin:/home/rcs/workspace/OpenIGTLink/lib/OpenIGTLink.jar org.medcare.igtl.tests.server.Server
