@@ -9,9 +9,9 @@ import org.medcare.igtl.network.RequestQueueManager;
 public class Client {
 
         public static RequestQueueManager requestQueueManager;
-		private static int sleep = 100;
+                private static int sleep = 100;
 
-		/**
+                /**
          * @param args
          */
         public static void main(String[] args) {
@@ -29,27 +29,28 @@ public class Client {
                 PositionMessage positionMessage = new PositionMessage("Client");
                 //start RequestQueueManager which start OpenIGTClient which start ResponseQueueManager
                 try {
-					requestQueueManager = new RequestQueueManager(new MyOpenIGTClient(host, port));
-				} catch (UnknownHostException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+                        requestQueueManager = new RequestQueueManager(new MyOpenIGTClient(host, port));
+                } catch (UnknownHostException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                }
                 requestQueueManager.start();
                 while (true) {
-                	double[] quaternion = {0.0, 0.6666666666, 0.577350269189626, 0.6666666666};
-					int quaternionSize = PositionMessage.ALL;
-					double[] position = {0.0, 50.0, 50.0};
-					positionMessage.setPositionData(position, quaternion, quaternionSize);
-                	requestQueueManager.addRequest(positionMessage.PackBody());
-                	try {
-						Thread.sleep(sleep);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+                        double[] quaternion = {0.0, 0.6666666666, 0.577350269189626, 0.6666666666};
+                                        int quaternionSize = PositionMessage.ALL;
+                                        double[] position = {0.0, 50.0, 50.0};
+                                        positionMessage.setPositionData(position, quaternion, quaternionSize);
+                                        positionMessage.PackBody();
+                        requestQueueManager.addRequest(positionMessage.getBytes());
+                        try {
+                                Thread.sleep(sleep);
+                        } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                       }
                 }
         }
 }

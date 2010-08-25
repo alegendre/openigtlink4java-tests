@@ -33,11 +33,13 @@ public class MyMessageHandler extends MessageHandler {
         public boolean perform(String messageType) throws Exception {
                 System.out.println("perform messageType : " + messageType);
                 if (messageType.equals("GET_CAPABIL")) {
-                	openIGTMessage = new GetCapabilityMessage(header, body);
+                        openIGTMessage = new GetCapabilityMessage(header, body);
                 } else if  (messageType.equals("TRANSFORM")) {
                         openIGTMessage = new TransformMessage(header, body);
                 } else if (messageType.equals("POSITION")) {
+                        System.out.println("perform trouve POSITION");
                         openIGTMessage = new PositionMessage(header, body);
+                        System.out.println("perform apres new PositionMessage");
                 } else if (messageType.equals("IMAGE")) {
                         openIGTMessage = new ImageMessage(header, body);
                 } else if (messageType.equals("STATUS")) {
@@ -48,10 +50,12 @@ public class MyMessageHandler extends MessageHandler {
                 }
                 PositionMessage positionMessage = new PositionMessage("Traker");
                 double[] quaternion = {0.0, 0.6666666666, 0.577350269189626, 0.6666666666};
-				int quaternionSize = PositionMessage.ALL;
-				double[] position = {0.0, 50.0, 50.0};
-				positionMessage.setPositionData(position, quaternion, quaternionSize);
-				serverThread.sendBytes(positionMessage.PackBody());
+                int quaternionSize = PositionMessage.ALL;
+                double[] position = {0.0, 50.0, 50.0};
+                positionMessage.setPositionData(position, quaternion, quaternionSize);
+                System.out.println("perform messageType SendBytes");
+                serverThread.sendBytes(positionMessage.PackBody());
+                System.out.println("perform messageType SendBytes done");
                 System.out.println("Perform messageType : " + messageType + " content : " + openIGTMessage.toString());
                 return true;
         }
