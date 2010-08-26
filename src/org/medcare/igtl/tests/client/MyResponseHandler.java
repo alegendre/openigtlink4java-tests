@@ -25,7 +25,7 @@ public class MyResponseHandler extends ResponseHandler {
 
         @Override
         public boolean manageError(String messageType, int status) throws Exception {
-                // TODO Auto-generated method stub
+                System.out.println("manageError messageType : " + messageType + " status : " + status);
                 return false;
         }
 

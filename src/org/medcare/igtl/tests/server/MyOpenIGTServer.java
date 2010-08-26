@@ -1,17 +1,15 @@
 package org.medcare.igtl.tests.server;
 
-import java.io.IOException;
-
 import org.medcare.igtl.network.MessageHandler;
 import org.medcare.igtl.network.OpenIGTServer;
 import org.medcare.igtl.network.ServerThread;
+import org.medcare.igtl.util.ErrorManager;
 import org.medcare.igtl.util.Header;
 
 public class MyOpenIGTServer extends OpenIGTServer {
 
-        public MyOpenIGTServer(int port) throws IOException {
-                super(port);
-                // TODO Auto-generated constructor stub
+        public MyOpenIGTServer(int port, ErrorManager errorManager) throws Exception {
+                super(port, errorManager);
         }
 
         @Override

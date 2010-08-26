@@ -38,8 +38,7 @@ public class MyMessageHandler extends MessageHandler {
                         openIGTMessage = new TransformMessage(header, body);
                 } else if (messageType.equals("POSITION")) {
                         System.out.println("perform trouve POSITION");
-                        openIGTMessage = new PositionMessage(header, body);
-                        System.out.println("perform apres new PositionMessage");
+                        openIGTMessage= new PositionMessage(header, body);
                 } else if (messageType.equals("IMAGE")) {
                         openIGTMessage = new ImageMessage(header, body);
                 } else if (messageType.equals("STATUS")) {
@@ -48,6 +47,7 @@ public class MyMessageHandler extends MessageHandler {
                         System.out.println("Perform messageType : " + messageType + " not implemented");
                         return false;
                 }
+                System.out.println("Perform messageType : " + messageType + " content : " + openIGTMessage.toString());
                 PositionMessage positionMessage = new PositionMessage("Traker");
                 double[] quaternion = {0.0, 0.6666666666, 0.577350269189626, 0.6666666666};
                 int quaternionSize = PositionMessage.ALL;
@@ -56,7 +56,6 @@ public class MyMessageHandler extends MessageHandler {
                 System.out.println("perform messageType SendBytes");
                 serverThread.sendBytes(positionMessage.PackBody());
                 System.out.println("perform messageType SendBytes done");
-                System.out.println("Perform messageType : " + messageType + " content : " + openIGTMessage.toString());
                 return true;
         }
 }

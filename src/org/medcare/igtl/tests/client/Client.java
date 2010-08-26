@@ -5,13 +5,15 @@ import java.net.UnknownHostException;
 
 import org.medcare.igtl.messages.PositionMessage;
 import org.medcare.igtl.network.RequestQueueManager;
+import org.medcare.igtl.util.ErrorManager;
 
 public class Client {
 
         public static RequestQueueManager requestQueueManager;
-                private static int sleep = 100;
+        private static int sleep = 100;
+		private static MyErrorManager errorManager;
 
-                /**
+        /**
          * @param args
          */
         public static void main(String[] args) {
@@ -28,29 +30,29 @@ public class Client {
                 }
                 PositionMessage positionMessage = new PositionMessage("Client");
                 //start RequestQueueManager which start OpenIGTClient which start ResponseQueueManager
+                errorManager = new MyErrorManager();
                 try {
-                        requestQueueManager = new RequestQueueManager(new MyOpenIGTClient(host, port));
-                } catch (UnknownHostException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                } catch (IOException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
+                        requestQueueManager = new RequestQueueManager(new MyOpenIGTClient(host, port, errorManager));
+                        requestQueueManager.start();
+                        while (true) {
+                                double[] quaternion = {0.0, 0.6666666666, 0.577350269189626, 0.6666666666};
+                                int quaternionSize = PositionMessage.ALL;
+                                double[] position = {0.0, 50.0, 50.0};
+                                positionMessage.setPositionData(position, quaternion, quaternionSize);
+                                requestQueueManager.addRequest(positionMessage.PackBody());
+                                try {
+                                        Thread.sleep(sleep);
+                                } catch (InterruptedException e) {
+                                        errorManager.error("Client thread InterruptedException", e, ErrorManager.APPLICATION_EXCEPTION);
+                               }
                 }
-                requestQueueManager.start();
-                while (true) {
-                        double[] quaternion = {0.0, 0.6666666666, 0.577350269189626, 0.6666666666};
-                                        int quaternionSize = PositionMessage.ALL;
-                                        double[] position = {0.0, 50.0, 50.0};
-                                        positionMessage.setPositionData(position, quaternion, quaternionSize);
-                                        positionMessage.PackBody();
-                        requestQueueManager.addRequest(positionMessage.getBytes());
-                        try {
-                                Thread.sleep(sleep);
-                        } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                       }
+                } catch (UnknownHostException e1) {
+                        errorManager.error("Client UnknownHostException", e1, ErrorManager.APPLICATION_UNKNOWNHOST_EXCEPTION);
+                } catch (IOException e1) {
+                        errorManager.error("Client IOException", e1, ErrorManager.APPLICATION_IO_EXCEPTION);
+                } catch (Exception e1) {
+                        System.out.println("Client Exception");
+                        errorManager.error("Client Exception", e1, ErrorManager.APPLICATION_EXCEPTION);
                 }
         }
 }
