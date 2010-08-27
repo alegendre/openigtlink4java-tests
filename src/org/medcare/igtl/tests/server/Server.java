@@ -2,14 +2,14 @@ package org.medcare.igtl.tests.server;
 
 import java.io.IOException;
 
-import org.medcare.igtl.tests.client.MyErrorManager;
+import org.medcare.igtl.tests.client.MyClientErrorManager;
 import org.medcare.igtl.util.ErrorManager;
 
 
 public class Server {
 
         public static MyOpenIGTServer openIGTServer;
-		private static MyErrorManager errorManager;
+        private static MyClientErrorManager errorManager;
 
         /**
          * @param args
@@ -23,7 +23,7 @@ public class Server {
                                       port = Integer.parseInt(arg);
                       }
                 }
-                errorManager = new MyErrorManager();
+                errorManager = new MyClientErrorManager();
                 try {
                         // OpenIGTServer listen on port
                         // For each client connection OpenIGTServer will start one ServerThread which start its MessageQueueManager

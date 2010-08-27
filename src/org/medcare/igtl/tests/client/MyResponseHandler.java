@@ -24,9 +24,8 @@ public class MyResponseHandler extends ResponseHandler {
         }
 
         @Override
-        public boolean manageError(String messageType, int status) throws Exception {
-                System.out.println("manageError messageType : " + messageType + " status : " + status);
-                return false;
+        public void manageError (String message, Exception exception, int errorCode) {
+                openIGTClient.errorManager.error(message, exception, errorCode);
         }
 
         @Override

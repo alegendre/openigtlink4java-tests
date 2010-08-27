@@ -10,6 +10,7 @@ import org.medcare.igtl.network.MessageHandler;
 import org.medcare.igtl.network.ServerThread;
 import org.medcare.igtl.util.Header;
 //GET_CAPABIL, GET_IMAGE, GET_IMGMETA, GET_LBMETA, GET_STATUS, GET_TRAJ, CAPABILITY, COLORTABLE, IMAGE, IMGMETA, POINT, POSITION, STATUS, STP_TDATA, STT_TDATA, TDATA, TRAJ, TRANSFORM
+
 public class MyMessageHandler extends MessageHandler {
         public OpenIGTMessage openIGTMessage;
 
@@ -24,9 +25,8 @@ public class MyMessageHandler extends MessageHandler {
         }
 
         @Override
-        public boolean manageError(String messageType, int status) throws Exception {
-                System.out.println("manageError messageType : " + messageType + " status : " + status);
-                return false;
+        public void manageError (String message, Exception exception, int errorCode) {
+                serverThread.errorManager.error(message, exception, errorCode);
         }
 
         @Override

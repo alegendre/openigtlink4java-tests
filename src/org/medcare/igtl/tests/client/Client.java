@@ -11,7 +11,7 @@ public class Client {
 
         public static RequestQueueManager requestQueueManager;
         private static int sleep = 100;
-		private static MyErrorManager errorManager;
+        private static MyClientErrorManager errorManager;
 
         /**
          * @param args
@@ -30,7 +30,7 @@ public class Client {
                 }
                 PositionMessage positionMessage = new PositionMessage("Client");
                 //start RequestQueueManager which start OpenIGTClient which start ResponseQueueManager
-                errorManager = new MyErrorManager();
+                errorManager = new MyClientErrorManager();
                 try {
                         requestQueueManager = new RequestQueueManager(new MyOpenIGTClient(host, port, errorManager));
                         requestQueueManager.start();
